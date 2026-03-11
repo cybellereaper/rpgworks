@@ -1,4 +1,3 @@
-import com.github.spotbugs.snom.SpotBugsTask
 import java.text.SimpleDateFormat
 
 plugins {
@@ -84,33 +83,6 @@ processResources {
         expand ( NAME: rootProject.name, VERSION: version, PACKAGE: rootProject.group.toString() )
     }
 }
-
-// checkstyle {
-//     toolVersion = '12.3.0'
-//     maxWarnings = 0
-// }
-
-// configurations.checkstyle {
-//     resolutionStrategy.capabilitiesResolution.withCapability("com.google.collections:google-collections") {
-//         select("com.google.guava:guava:23.0")
-//     }
-// }
-
-// tasks.withType(Checkstyle).configureEach {
-//     reports {
-//         xml.required = false
-//         html.required = true
-//     }
-// }
-
-// tasks.withType(SpotBugsTask).configureEach {
-//     reports.create("html") {
-//         required = true
-//     }
-//     reports.create("xml") {
-//         required = false
-//     }
-// }
 
 shadowJar {
     archiveClassifier.set('')

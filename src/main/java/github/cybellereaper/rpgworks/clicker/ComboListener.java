@@ -4,37 +4,46 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
+
+import github.cybellereaper.rpgworks.classes.RpgClass;
+import github.cybellereaper.rpgworks.services.PlayerClassService;
+
 import org.bukkit.entity.Player;
 
 public final class ComboListener implements Listener {
 
     private final ComboManager comboManager;
-    private final SpellRegistry spellRegistry;
+    private final PlayerClassService playerClassService;
     private final SpellCaster spellCaster;
 
-    public ComboListener(ComboManager comboManager, SpellRegistry spellRegistry, SpellCaster spellCaster) {
+    public ComboListener(
+            ComboManager comboManager,
+            PlayerClassService playerClassService,
+            SpellCaster spellCaster
+    ) {
         this.comboManager = comboManager;
-        this.spellRegistry = spellRegistry;
+        this.playerClassService = playerClassService;
         this.spellCaster = spellCaster;
     }
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        Action action = event.getAction();
-        ClickInput input = map(action);
+        if (event.getHand() != EquipmentSlot.HAND) {
+            return;
+        }
 
+        ClickInput input = map(event.getAction());
         if (input == null) {
             return;
         }
 
         Player player = event.getPlayer();
 
-        // Optional: require specific weapon/item held
         if (!spellCaster.canUseSpellSystem(player)) {
             return;
         }
 
-        // Optional: cancel normal interaction while combo casting
         event.setCancelled(true);
 
         SpellCombo combo = comboManager.registerInput(player.getUniqueId(), input);
@@ -43,9 +52,15 @@ public final class ComboListener implements Listener {
             return;
         }
 
-        Spell spell = spellRegistry.get(combo);
+        RpgClass rpgClass = playerClassService.getPlayerClass(player).orElse(null);
+        if (rpgClass == null) {
+            spellCaster.fail(player, "No class selected.");
+            return;
+        }
+
+        Spell spell = rpgClass.spellBook().get(combo);
         if (spell == null) {
-            spellCaster.fail(player, "Unknown combo.");
+            spellCaster.fail(player, "No spell bound to " + combo.name() + " for " + rpgClass.displayName() + ".");
             return;
         }
 

@@ -1,21 +1,29 @@
 package github.cybellereaper.rpgworks;
 
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import github.cybellereaper.rpgworks.classes.ClassRegistry;
+import github.cybellereaper.rpgworks.classes.Mage;
 import github.cybellereaper.rpgworks.clicker.ComboListener;
 import github.cybellereaper.rpgworks.clicker.ComboManager;
 import github.cybellereaper.rpgworks.clicker.DashSpell;
 import github.cybellereaper.rpgworks.clicker.ManaService;
 import github.cybellereaper.rpgworks.clicker.SpellCaster;
 import github.cybellereaper.rpgworks.clicker.SpellRegistry;
+import github.cybellereaper.rpgworks.services.PlayerClassService;
 
-
-public final class RPGWorks extends JavaPlugin {
+public final class RPGWorks extends JavaPlugin implements Listener {
 
     private ComboManager comboManager;
     private SpellRegistry spellRegistry;
     private ManaService manaService;
     private SpellCaster spellCaster;
+    private PlayerClassService playerClassService;
+    private ClassRegistry classRegistry;
+    private Mage mage = new Mage();
 
     @Override
     public void onEnable() {
@@ -24,6 +32,7 @@ public final class RPGWorks extends JavaPlugin {
         registerListeners();
 
         getLogger().info("RPGFramework enabled.");
+
     }
 
     @Override
@@ -32,10 +41,15 @@ public final class RPGWorks extends JavaPlugin {
     }
 
     private void setupServices() {
+        classRegistry = new ClassRegistry();
+        classRegistry.register(mage);
+        playerClassService = new PlayerClassService(classRegistry);
+
         comboManager = new ComboManager(800L);
         spellRegistry = new SpellRegistry();
         manaService = new ManaService();
         spellCaster = new SpellCaster(manaService);
+
     }
 
     private void registerSpells() {
@@ -43,13 +57,16 @@ public final class RPGWorks extends JavaPlugin {
         // spellRegistry.register(new SlamSpell());
     }
 
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+        playerClassService.setPlayerClass(event.getPlayer(), mage.id());
+    }
+
     private void registerListeners() {
         var pluginManager = getServer().getPluginManager();
-
-        pluginManager.registerEvents(
-                new ComboListener(comboManager, spellRegistry, spellCaster),
-                this
-        );
+        var comboListener = new ComboListener(comboManager, playerClassService, spellCaster);
+        pluginManager.registerEvents(comboListener, this);
+        pluginManager.registerEvents(this, this);
     }
 
     public ComboManager comboManager() {
