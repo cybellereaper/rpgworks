@@ -1,8 +1,11 @@
-package github.cybellereaper.rpgworks.clicker;
+package github.cybellereaper.rpgworks.clicker.combos;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import github.cybellereaper.rpgworks.clicker.ClickInput;
+import github.cybellereaper.rpgworks.clicker.spells.SpellCombo;
 
 public final class ComboManager {
     private final Map<UUID, ComboState> states = new HashMap<>();

@@ -1,4 +1,4 @@
-package github.cybellereaper.rpgworks.clicker;
+package github.cybellereaper.rpgworks.clicker.spells;
 import java.util.HashMap;
 import java.util.Map;
 

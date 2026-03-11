@@ -3,7 +3,8 @@ package github.cybellereaper.rpgworks.classes;
 import java.util.EnumMap;
 import java.util.Map;
 
-import github.cybellereaper.rpgworks.clicker.*;
+import github.cybellereaper.rpgworks.clicker.spells.Spell;
+import github.cybellereaper.rpgworks.clicker.spells.SpellCombo;
 
 public final class ClassSpellBook {
 

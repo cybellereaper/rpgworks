@@ -1,4 +1,4 @@
-package github.cybellereaper.rpgworks.clicker;
+package github.cybellereaper.rpgworks.services;
 
 import org.bukkit.entity.Player;
 

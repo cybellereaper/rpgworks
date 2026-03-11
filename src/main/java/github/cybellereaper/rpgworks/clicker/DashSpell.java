@@ -5,6 +5,9 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import github.cybellereaper.rpgworks.clicker.spells.Spell;
+import github.cybellereaper.rpgworks.clicker.spells.SpellCombo;
+
 public final class DashSpell implements Spell {
 
     @Override

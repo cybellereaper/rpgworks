@@ -1,6 +1,10 @@
-package github.cybellereaper.rpgworks.clicker;
+package github.cybellereaper.rpgworks.clicker.spells;
+
 
 import org.bukkit.entity.Player;
+
+import github.cybellereaper.rpgworks.clicker.ClickInput;
+import github.cybellereaper.rpgworks.clicker.ManaService;
 
 import java.util.HashMap;
 import java.util.Map;

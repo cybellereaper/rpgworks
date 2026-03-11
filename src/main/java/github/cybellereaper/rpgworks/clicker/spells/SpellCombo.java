@@ -1,6 +1,8 @@
-package github.cybellereaper.rpgworks.clicker;
+package github.cybellereaper.rpgworks.clicker.spells;
 
 import java.util.Arrays;
+
+import github.cybellereaper.rpgworks.clicker.ClickInput;
 
 public enum SpellCombo {
     LLR(ClickInput.L, ClickInput.L, ClickInput.R),

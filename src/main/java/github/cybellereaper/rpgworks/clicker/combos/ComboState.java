@@ -1,7 +1,9 @@
-package github.cybellereaper.rpgworks.clicker;
+package github.cybellereaper.rpgworks.clicker.combos;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import github.cybellereaper.rpgworks.clicker.ClickInput;
 
 public final class ComboState {
     private final List<ClickInput> buffer = new ArrayList<>(3);

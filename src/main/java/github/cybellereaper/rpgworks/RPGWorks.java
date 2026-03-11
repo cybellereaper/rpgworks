@@ -7,12 +7,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import github.cybellereaper.rpgworks.classes.ClassRegistry;
 import github.cybellereaper.rpgworks.classes.Mage;
-import github.cybellereaper.rpgworks.clicker.ComboListener;
-import github.cybellereaper.rpgworks.clicker.ComboManager;
 import github.cybellereaper.rpgworks.clicker.DashSpell;
-import github.cybellereaper.rpgworks.clicker.ManaService;
-import github.cybellereaper.rpgworks.clicker.SpellCaster;
-import github.cybellereaper.rpgworks.clicker.SpellRegistry;
+import github.cybellereaper.rpgworks.clicker.combos.ComboListener;
+import github.cybellereaper.rpgworks.clicker.combos.ComboManager;
+import github.cybellereaper.rpgworks.clicker.spells.SpellCaster;
+import github.cybellereaper.rpgworks.clicker.spells.SpellRegistry;
+import github.cybellereaper.rpgworks.services.ManaService;
 import github.cybellereaper.rpgworks.services.PlayerClassService;
 
 public final class RPGWorks extends JavaPlugin implements Listener {

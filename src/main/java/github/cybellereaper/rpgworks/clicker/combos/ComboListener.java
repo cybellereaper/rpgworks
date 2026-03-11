@@ -1,4 +1,4 @@
-package github.cybellereaper.rpgworks.clicker;
+package github.cybellereaper.rpgworks.clicker.combos;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -7,6 +7,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
 import github.cybellereaper.rpgworks.classes.RpgClass;
+import github.cybellereaper.rpgworks.clicker.ClickInput;
+import github.cybellereaper.rpgworks.clicker.spells.Spell;
+import github.cybellereaper.rpgworks.clicker.spells.SpellCaster;
+import github.cybellereaper.rpgworks.clicker.spells.SpellCombo;
 import github.cybellereaper.rpgworks.services.PlayerClassService;
 
 import org.bukkit.entity.Player;

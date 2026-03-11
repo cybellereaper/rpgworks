@@ -1,7 +1,7 @@
 package github.cybellereaper.rpgworks.classes;
 
 import github.cybellereaper.rpgworks.clicker.DashSpell;
-import github.cybellereaper.rpgworks.clicker.SpellCombo;
+import github.cybellereaper.rpgworks.clicker.spells.SpellCombo;
 
 public final class Mage implements RpgClass {
 
