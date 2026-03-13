@@ -14,6 +14,12 @@ import github.cybellereaper.rpgworks.clicker.spells.SpellCaster;
 import github.cybellereaper.rpgworks.clicker.spells.SpellRegistry;
 import github.cybellereaper.rpgworks.services.ManaService;
 import github.cybellereaper.rpgworks.services.PlayerClassService;
+import github.cybellereaper.rpgworks.gear.DefaultGearTemplateRegistry;
+import github.cybellereaper.rpgworks.gear.GearCommand;
+import github.cybellereaper.rpgworks.gear.GearGrantService;
+import github.cybellereaper.rpgworks.gear.GearItemStackFactory;
+import github.cybellereaper.rpgworks.gear.GearTemplateRegistry;
+import github.cybellereaper.rpgworks.gear.MinecraftGearFactory;
 
 public final class RPGWorks extends JavaPlugin implements Listener {
 
@@ -24,12 +30,15 @@ public final class RPGWorks extends JavaPlugin implements Listener {
     private PlayerClassService playerClassService;
     private ClassRegistry classRegistry;
     private Mage mage = new Mage();
+    private GearTemplateRegistry gearTemplateRegistry;
+    private GearGrantService gearGrantService;
 
     @Override
     public void onEnable() {
         setupServices();
         registerSpells();
         registerListeners();
+        registerCommands();
 
         getLogger().info("RPGFramework enabled.");
 
@@ -50,6 +59,13 @@ public final class RPGWorks extends JavaPlugin implements Listener {
         manaService = new ManaService();
         spellCaster = new SpellCaster(manaService);
 
+        gearTemplateRegistry = new DefaultGearTemplateRegistry();
+        gearGrantService = new GearGrantService(
+                new MinecraftGearFactory(),
+                gearTemplateRegistry,
+                new GearItemStackFactory()
+        );
+
     }
 
     private void registerSpells() {
@@ -67,6 +83,17 @@ public final class RPGWorks extends JavaPlugin implements Listener {
         var comboListener = new ComboListener(comboManager, playerClassService, spellCaster);
         pluginManager.registerEvents(comboListener, this);
         pluginManager.registerEvents(this, this);
+    }
+
+    private void registerCommands() {
+        GearCommand gearCommand = new GearCommand(gearGrantService, gearTemplateRegistry);
+        var command = getCommand("gear");
+        if (command == null) {
+            getLogger().warning("Command 'gear' is missing from plugin.yml");
+            return;
+        }
+        command.setExecutor(gearCommand);
+        command.setTabCompleter(gearCommand);
     }
 
     public ComboManager comboManager() {
