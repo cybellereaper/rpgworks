@@ -52,7 +52,7 @@ public final class ComboListener implements Listener {
 
         SpellCombo combo = comboManager.registerInput(player.getUniqueId(), input);
         if (combo == null) {
-            spellCaster.showPartialCombo(player, comboManager.state(player.getUniqueId()).buffer());
+            spellCaster.showPartialCombo(player, comboManager.state(player.getUniqueId()).inputs());
             return;
         }
 

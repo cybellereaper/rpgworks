@@ -20,23 +20,25 @@ public final class ComboManager {
     }
 
     public SpellCombo registerInput(UUID uuid, ClickInput input) {
-        ComboState state = state(uuid);
-        state.push(input, System.currentTimeMillis(), comboTimeoutMillis);
+        ComboState playerComboState = state(uuid);
+        playerComboState.push(input, System.currentTimeMillis(), comboTimeoutMillis);
 
-        if (!state.isComplete()) {
+        if (!playerComboState.isComplete()) {
             return null;
         }
 
-        SpellCombo combo = SpellCombo.from(state.buffer());
-        state.clear();
-        return combo;
+        SpellCombo detectedCombo = SpellCombo.from(playerComboState.inputs());
+        playerComboState.clear();
+        return detectedCombo;
     }
 
     public void clear(UUID uuid) {
-        ComboState state = states.get(uuid);
-        if (state != null) {
-            state.clear();
+        ComboState comboState = states.get(uuid);
+        if (comboState == null) {
+            return;
         }
+
+        comboState.clear();
     }
 
     public void remove(UUID uuid) {
