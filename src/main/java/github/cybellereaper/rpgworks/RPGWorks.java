@@ -1,38 +1,30 @@
 package github.cybellereaper.rpgworks;
 
+import github.cybellereaper.rpgworks.classes.ClassRegistry;
+import github.cybellereaper.rpgworks.classes.Mage;
+import github.cybellereaper.rpgworks.clicker.combos.ComboListener;
+import github.cybellereaper.rpgworks.clicker.combos.ComboManager;
+import github.cybellereaper.rpgworks.clicker.spells.SpellCaster;
+import github.cybellereaper.rpgworks.services.ManaService;
+import github.cybellereaper.rpgworks.services.PlayerClassService;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import github.cybellereaper.rpgworks.classes.ClassRegistry;
-import github.cybellereaper.rpgworks.classes.Mage;
-import github.cybellereaper.rpgworks.clicker.DashSpell;
-import github.cybellereaper.rpgworks.clicker.combos.ComboListener;
-import github.cybellereaper.rpgworks.clicker.combos.ComboManager;
-import github.cybellereaper.rpgworks.clicker.spells.SpellCaster;
-import github.cybellereaper.rpgworks.clicker.spells.SpellRegistry;
-import github.cybellereaper.rpgworks.services.ManaService;
-import github.cybellereaper.rpgworks.services.PlayerClassService;
-
 public final class RPGWorks extends JavaPlugin implements Listener {
 
     private ComboManager comboManager;
-    private SpellRegistry spellRegistry;
     private ManaService manaService;
     private SpellCaster spellCaster;
     private PlayerClassService playerClassService;
-    private ClassRegistry classRegistry;
-    private Mage mage = new Mage();
+    private final Mage mage = new Mage();
 
     @Override
     public void onEnable() {
         setupServices();
-        registerSpells();
         registerListeners();
-
         getLogger().info("RPGFramework enabled.");
-
     }
 
     @Override
@@ -41,20 +33,13 @@ public final class RPGWorks extends JavaPlugin implements Listener {
     }
 
     private void setupServices() {
-        classRegistry = new ClassRegistry();
+        ClassRegistry classRegistry = new ClassRegistry();
         classRegistry.register(mage);
-        playerClassService = new PlayerClassService(classRegistry);
 
+        playerClassService = new PlayerClassService(classRegistry);
         comboManager = new ComboManager(800L);
-        spellRegistry = new SpellRegistry();
         manaService = new ManaService();
         spellCaster = new SpellCaster(manaService);
-
-    }
-
-    private void registerSpells() {
-        spellRegistry.register(new DashSpell());
-        // spellRegistry.register(new SlamSpell());
     }
 
     @EventHandler
@@ -71,10 +56,6 @@ public final class RPGWorks extends JavaPlugin implements Listener {
 
     public ComboManager comboManager() {
         return comboManager;
-    }
-
-    public SpellRegistry spellRegistry() {
-        return spellRegistry;
     }
 
     public ManaService manaService() {

@@ -1,32 +1,39 @@
 package github.cybellereaper.rpgworks.clicker.combos;
 
-import java.util.ArrayList;
+import github.cybellereaper.rpgworks.clicker.ClickInput;
+import github.cybellereaper.rpgworks.clicker.spells.SpellCombo;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.List;
 
-import github.cybellereaper.rpgworks.clicker.ClickInput;
-
 public final class ComboState {
-    private final List<ClickInput> buffer = new ArrayList<>(3);
+    private final Deque<ClickInput> buffer = new ArrayDeque<>(SpellCombo.COMBO_LENGTH);
     private long lastInputAt;
 
     public void push(ClickInput input, long now, long timeoutMillis) {
         if (now - lastInputAt > timeoutMillis) {
-            buffer.clear();
+            clear();
         }
-        buffer.add(input);
+
+        buffer.addLast(input);
+        while (buffer.size() > SpellCombo.COMBO_LENGTH) {
+            buffer.removeFirst();
+        }
         lastInputAt = now;
     }
 
     public List<ClickInput> buffer() {
-        return buffer;
+        return List.copyOf(buffer);
     }
 
     public boolean isComplete() {
-        return buffer.size() >= 3;
+        return buffer.size() == SpellCombo.COMBO_LENGTH;
     }
 
     public void clear() {
         buffer.clear();
+        lastInputAt = 0L;
     }
 
     public long lastInputAt() {
