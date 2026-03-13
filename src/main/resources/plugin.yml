@@ -5,16 +5,11 @@ api-version: "1.21.11"
 author: AUTHOR
 description: DESCRIPTION
 commands:
-  ex:
-    description: Base command for EXAMPLE
-    usage: "For a list of commands, type /ex help"
-    aliases: example
+  gear:
+    description: Generate and grant RPG gear
+    usage: "/gear <player> <template> <rarity> <level>"
+    permission: rpgworks.command.gear
 permissions:
-  example.test:
-    description: DESCRIPTION
-    default: true
-  example.*:
-    description: Grants all other permissions
-    default: false
-    children:
-      example.test: true
+  rpgworks.command.gear:
+    description: Allows using /gear to generate items
+    default: op
